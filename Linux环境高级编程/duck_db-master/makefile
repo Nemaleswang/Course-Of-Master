@@ -13,7 +13,7 @@ bpt.o:
 	$(CXX) -c $(SRC_DIR)bpt.cc
 
 duck_db.o:
-	$(CXX) -c $(SRC_DIR)duck_db.cpp
+	$(CXX) -c $(SRC_DIR)duck_db.cpp -std=c++11 
 
 clean:
 	rm -rf $(OBJ) $(TARGET)

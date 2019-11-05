@@ -53,14 +53,14 @@ void initialSystem(){
 // print help message
 void printHelpMess(){
 	cout << "*********************************************************************************************"<<endl<<endl
-		<<" 				Welcome to the duck_db\n 				db file locates in \"./data/db.bin\" \n 				Author: enpei\n 				www.enpeizhao.com\n 				2018-08-31"<<endl<<endl
+		<<" 				Welcome to the duck_db\n 				db file locates in ./data/db.bin"<<endl
 		<<"*********************************************************************************************"<<endl
 		<<"  .help 							print help message;"<<endl
 		<<"  .exit 							exit program;"<<endl
 		<<"  .reset 							delete db file;"<<endl
-		<<"  insert db {index} {name} {age} {email}; 			insert record;"<<endl
-		<<"  delete from db where id ={index}; 				delete record;"<<endl
-		<<"  update db {name} {age} {email} where id={index}; 		update a record;"<<endl
+		<<"  insert db {index} {numid} {age} {classid}; 			insert record;"<<endl
+		<<"  delete from db where id={index}; 				delete record;"<<endl
+		<<"  update db {numid} {age} {classid} where id={index}; 		update a record;"<<endl
 		<<"  select * from db where id={index}; 				search a record by index;"<<endl
 		<<"  select * from db where id in({minIndex},{maxIndex}); 		search records between indexs;"<<endl
 		<<"*********************************************************************************************"<<endl
@@ -267,9 +267,9 @@ int searchAll(bplus_tree *treePtr,int *start, int *end){
 	TextTable t( '-', '|', '+' );
 
     t.add( " id " );
-    t.add( " name " );
+    t.add( " numid " );
     t.add( " age " );
-    t.add( " email " );
+    t.add( " classid " );
     t.endOfRow();
 
 	bpt::key_t key;
@@ -310,9 +310,9 @@ void printTable(int *index, value_t *values){
 	TextTable t( '-', '|', '+' );
 
     t.add( " id " );
-    t.add( " name " );
+    t.add( " numid " );
     t.add( " age " );
-    t.add( " email " );
+    t.add( " classid " );
     t.endOfRow();
 
     t.add( to_string(*index) );
