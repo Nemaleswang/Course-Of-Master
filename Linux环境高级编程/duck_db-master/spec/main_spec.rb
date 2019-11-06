@@ -24,14 +24,13 @@ describe 'database' do
 
 
   it 'insert test' do
-    script = (3600..5000).map do |i|
-      "insert db #{i} #{201900000000+i} #{18} class#{i}"
+    script = (1..200).map do |i|
+      "insert db #{i} #{i} #{18} class#{i}"
     end
     script << ".exit"
     result = run_script(script)
-    #expect(result.last(2)).to match_array([
-    #  ">insert",
-    #  "> bye!",
-    #])
+    expect(result.last(1)).to match_array([
+      ">> bye!",
+    ])
   end
 end

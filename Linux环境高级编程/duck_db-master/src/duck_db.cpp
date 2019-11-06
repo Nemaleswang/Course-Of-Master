@@ -1,7 +1,3 @@
-// a journey of a thousand miles begins with a single step
-// author: enpeizhao
-// blog: www.enpeizhao.com
-
 #include "../include/bpt.h"
 #include "../include/TextTable.h"
 
@@ -53,16 +49,16 @@ void initialSystem(){
 // print help message
 void printHelpMess(){
 	cout << "*********************************************************************************************"<<endl<<endl
-		<<" 				Welcome to the duck_db\n 				db file locates in ./data/db.bin"<<endl
+		<<" 				Welcome to the BPT_db                 "<<endl
 		<<"*********************************************************************************************"<<endl
 		<<"  .help 							print help message;"<<endl
 		<<"  .exit 							exit program;"<<endl
 		<<"  .reset 							delete db file;"<<endl
-		<<"  insert db {index} {numid} {age} {classid}; 			insert record;"<<endl
-		<<"  delete from db where id={index}; 				delete record;"<<endl
-		<<"  update db {numid} {age} {classid} where id={index}; 		update a record;"<<endl
-		<<"  select * from db where id={index}; 				search a record by index;"<<endl
-		<<"  select * from db where id in({minIndex},{maxIndex}); 		search records between indexs;"<<endl
+		<<"  insert db {index} {stu_id} {class_id};"<<endl
+		<<"  delete from db where id = {index};"<<endl
+		<<"  update db {stu_id} {class_id} where id = {index};"<<endl
+		<<"  select * from db where id = {index};"<<endl
+		<<"  select * from db where id in ({minIndex},{maxIndex});"<<endl
 		<<"*********************************************************************************************"<<endl
 		<<endl << nextLineHeader;
 }
@@ -99,10 +95,10 @@ void selectCommand(){
 	    	int *keyIndex = new int;
 	    	value_t *insertData = new value_t;
 
-	    	int okNum = sscanf(userCommand,"insert db %d %s %d %s;", 
-	    		keyIndex, insertData->name,&(insertData->age),insertData->email);
-
-			if(okNum < 3){
+	    	int okNum = sscanf(userCommand,"insert db %d %s %s;", 
+	    		keyIndex, insertData->name,insertData->email);
+			insertData->age = 18;
+			if(okNum < 2){
 				
 				cout << errorMessage<< nextLineHeader;
 
@@ -129,7 +125,7 @@ void selectCommand(){
 
 	    	int *keyIndex = new int;
 
-	    	int okNum = sscanf(userCommand,"delete from db where id=%d;", keyIndex);
+	    	int okNum = sscanf(userCommand,"delete from db where id = %d;", keyIndex);
 
 			if(okNum < 1){
 				cout << errorMessage<< nextLineHeader;
@@ -156,7 +152,7 @@ void selectCommand(){
 
 	    		int i_start,i_end;
 
-	    		int okNum = sscanf(userCommand,"select * from db where id in(%d,%d);", &i_start,&i_end);
+	    		int okNum = sscanf(userCommand,"select * from db where id in (%d,%d);", &i_start,&i_end);
 
 				if(okNum < 2){
 					cout << errorMessage<< nextLineHeader;
@@ -173,7 +169,7 @@ void selectCommand(){
 	    	}else{
 
 		    	int *keyIndex = new int;
-		    	int okNum = sscanf(userCommand,"select * from db where id=%d;", keyIndex);
+		    	int okNum = sscanf(userCommand,"select * from db where id = %d;", keyIndex);
 
 				if(okNum < 1){
 					cout << errorMessage<< nextLineHeader;
@@ -202,13 +198,15 @@ void selectCommand(){
 	    	int *keyIndex = new int;
 	    	value_t *updateData = new value_t;
 
-	    	int okNum = sscanf(userCommand,"update db %s %d %s where id=%d;", 
-	    		 updateData->name,&(updateData->age),updateData->email,keyIndex);
+	    	int okNum = sscanf(userCommand,"update db %s %s where id = %d;", 
+	    		 updateData->name,updateData->email,keyIndex);
 
-			if(okNum < 3){
+			if(okNum < 2){
 				cout << errorMessage<< nextLineHeader;
 			}else{
 				startTime = clock(); 
+
+				updateData->age = 1;
 
 				int return_code = updateRecord(duck_db_ptr,keyIndex,updateData);
 
@@ -267,9 +265,9 @@ int searchAll(bplus_tree *treePtr,int *start, int *end){
 	TextTable t( '-', '|', '+' );
 
     t.add( " id " );
-    t.add( " numid " );
-    t.add( " age " );
-    t.add( " classid " );
+    t.add( " stu_id " );
+    //t.add( " age " );
+    t.add( " class_id " );
     t.endOfRow();
 
 	bpt::key_t key;
@@ -289,7 +287,7 @@ int searchAll(bplus_tree *treePtr,int *start, int *end){
 			// find
 				t.add( to_string(i) );
 			    t.add( return_val ->name );
-			    t.add( to_string(return_val ->age));
+			    //t.add( to_string(return_val ->age));
 			    t.add( return_val ->email );
 			    t.endOfRow();
 				break;
@@ -310,14 +308,14 @@ void printTable(int *index, value_t *values){
 	TextTable t( '-', '|', '+' );
 
     t.add( " id " );
-    t.add( " numid " );
-    t.add( " age " );
-    t.add( " classid " );
+    t.add( " stu_id " );
+    //t.add( " age " );
+    t.add( " class_id " );
     t.endOfRow();
 
     t.add( to_string(*index) );
     t.add( values ->name );
-    t.add( to_string(values ->age));
+    //t.add( to_string(values ->age));
     t.add( values ->email );
     t.endOfRow();
 
@@ -325,7 +323,7 @@ void printTable(int *index, value_t *values){
 }
 // int to key_t
 void intToKeyT(bpt::key_t *a,int *b){
-	char key[16] = { 0 };
+	char key[160] = { 0 };
 	sprintf(key, "%d", *b);
 	*a = key;
 }
@@ -343,6 +341,7 @@ double durationTime(clock_t *f,clock_t *s){
 
 int main(int argc, char *argv[])
 {
+	//freopen("insert_command","r",stdin);
 	initialSystem();
 
 }

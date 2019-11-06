@@ -6,7 +6,7 @@
 namespace bpt {
 
 /* predefined B+ info */
-#define BP_ORDER 50
+#define BP_ORDER 10
 
 /* key/value type */
 
@@ -18,7 +18,7 @@ struct value_t{
 
 // typedef int value_t;
 struct key_t {
-    char k[16];
+    char k[160];
 
     key_t(const char *str = "")
     {

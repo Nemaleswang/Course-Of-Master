@@ -13,4 +13,4 @@ using namespace std;
 const char *errorMessage = "> your input is invalid,print \".help\" for more infomation!\n";
 const char *nextLineHeader ="> ";
 const char *exitMessage = "> bye!\n";
-const char *dbFileName = "./data/db.bin";
+const char *dbFileName = "./data/database.bin";
