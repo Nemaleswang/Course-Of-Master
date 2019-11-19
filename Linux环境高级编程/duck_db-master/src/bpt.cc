@@ -33,8 +33,7 @@ inline record_t *find(leaf_node_t &node, const key_t &key) {
     return lower_bound(begin(node), end(node), key);
 }
 
-bplus_tree::bplus_tree(const char *p, bool force_empty)
-    : fp(NULL), fp_level(0)
+bplus_tree::bplus_tree(const char *p, bool force_empty) : fp(NULL), fp_level(0)
 {
     bzero(path, sizeof(path));
     strcpy(path, p);

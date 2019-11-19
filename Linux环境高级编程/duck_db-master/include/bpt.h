@@ -6,11 +6,13 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#ifndef UNIT_TEST
+
+//#ifndef UNIT_TEST
 #include "predefined.h"
-#else
+//#else
 // #include "unit_test_predefined.h"
-#endif
+//#endif
+
 
 namespace bpt {
 
@@ -85,11 +87,6 @@ public:
         return meta;
 };
 
-#ifndef UNIT_TEST
-private:
-#else
-public:
-#endif
     char path[512];
     meta_t meta;
 

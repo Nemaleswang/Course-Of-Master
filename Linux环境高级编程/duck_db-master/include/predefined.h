@@ -32,6 +32,7 @@ inline int keycmp(const key_t &a, const key_t &b) {
     return x == 0 ? strcmp(a.k, b.k) : x;
 }
 
+
 #define OPERATOR_KEYCMP(type) \
     bool operator< (const key_t &l, const type &r) {\
         return keycmp(l, r.key) < 0;\
@@ -47,5 +48,6 @@ inline int keycmp(const key_t &a, const key_t &b) {
     }
 
 }
+
 
 #endif /* end of PREDEFINED_H */

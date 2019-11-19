@@ -54,9 +54,9 @@ void printHelpMess(){
 		<<"  .help 							print help message;"<<endl
 		<<"  .exit 							exit program;"<<endl
 		<<"  .reset 							delete db file;"<<endl
-		<<"  insert db {index} {stu_id} {class_id};"<<endl
+		<<"  insert db {index} {name} {stu_id} {class_id};"<<endl
 		<<"  delete from db where id = {index};"<<endl
-		<<"  update db {stu_id} {class_id} where id = {index};"<<endl
+		<<"  update db {name} {stu_id} {class_id} where id = {index};"<<endl
 		<<"  select * from db where id = {index};"<<endl
 		<<"  select * from db where id in ({minIndex},{maxIndex});"<<endl
 		<<"*********************************************************************************************"<<endl
@@ -95,10 +95,10 @@ void selectCommand(){
 	    	int *keyIndex = new int;
 	    	value_t *insertData = new value_t;
 
-	    	int okNum = sscanf(userCommand,"insert db %d %s %s;", 
-	    		keyIndex, insertData->name,insertData->email);
-			insertData->age = 18;
-			if(okNum < 2){
+	    	int okNum = sscanf(userCommand,"insert db %d %s %d %s;", 
+	    		keyIndex, insertData->name,&(insertData->age),insertData->email);
+
+			if(okNum < 3){
 				
 				cout << errorMessage<< nextLineHeader;
 
@@ -198,15 +198,13 @@ void selectCommand(){
 	    	int *keyIndex = new int;
 	    	value_t *updateData = new value_t;
 
-	    	int okNum = sscanf(userCommand,"update db %s %s where id = %d;", 
-	    		 updateData->name,updateData->email,keyIndex);
+	    	int okNum = sscanf(userCommand,"update db %s %d %s where id = %d;", 
+	    		 updateData->name,&(updateData->age),updateData->email,keyIndex);
 
-			if(okNum < 2){
+			if(okNum < 3){
 				cout << errorMessage<< nextLineHeader;
 			}else{
 				startTime = clock(); 
-
-				updateData->age = 1;
 
 				int return_code = updateRecord(duck_db_ptr,keyIndex,updateData);
 
@@ -265,8 +263,8 @@ int searchAll(bplus_tree *treePtr,int *start, int *end){
 	TextTable t( '-', '|', '+' );
 
     t.add( " id " );
+    t.add( " name " );
     t.add( " stu_id " );
-    //t.add( " age " );
     t.add( " class_id " );
     t.endOfRow();
 
@@ -287,7 +285,7 @@ int searchAll(bplus_tree *treePtr,int *start, int *end){
 			// find
 				t.add( to_string(i) );
 			    t.add( return_val ->name );
-			    //t.add( to_string(return_val ->age));
+			    t.add( to_string(return_val ->age));
 			    t.add( return_val ->email );
 			    t.endOfRow();
 				break;
@@ -308,14 +306,14 @@ void printTable(int *index, value_t *values){
 	TextTable t( '-', '|', '+' );
 
     t.add( " id " );
+    t.add( " name " );
     t.add( " stu_id " );
-    //t.add( " age " );
     t.add( " class_id " );
     t.endOfRow();
 
     t.add( to_string(*index) );
     t.add( values ->name );
-    //t.add( to_string(values ->age));
+    t.add( to_string(values ->age));
     t.add( values ->email );
     t.endOfRow();
 
@@ -323,7 +321,7 @@ void printTable(int *index, value_t *values){
 }
 // int to key_t
 void intToKeyT(bpt::key_t *a,int *b){
-	char key[160] = { 0 };
+	char key[16] = { 0 };
 	sprintf(key, "%d", *b);
 	*a = key;
 }
@@ -341,7 +339,7 @@ double durationTime(clock_t *f,clock_t *s){
 
 int main(int argc, char *argv[])
 {
-	//freopen("insert_command","r",stdin);
 	initialSystem();
 
 }
+

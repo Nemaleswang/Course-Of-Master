@@ -1,19 +1,19 @@
 
 CXX = g++
 
-SRC_DIR = ./src/
-TARGET = duck_db
-OBJ = bpt.o duck_db.o
+SRC_DIR = ./cpp_code/
+TARGET = bpt_db
+OBJ = bpt.o main.o
 
 $(TARGET):$(OBJ)
 	$(CXX) -o $(TARGET) $(OBJ)
 	rm -rf $(OBJ)
 
 bpt.o:
-	$(CXX) -c $(SRC_DIR)bpt.cc
+	$(CXX) -c $(SRC_DIR)bpt.cpp
 
-duck_db.o:
-	$(CXX) -c $(SRC_DIR)duck_db.cpp -std=c++11 
+main.o:
+	$(CXX) -c $(SRC_DIR)main.cpp -std=c++11 
 
 clean:
 	rm -rf $(OBJ) $(TARGET)
