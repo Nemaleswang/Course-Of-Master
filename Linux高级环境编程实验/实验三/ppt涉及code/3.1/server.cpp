@@ -1,0 +1,55 @@
+#include <netinet/in.h>
+#include <memory.h>
+#include <unistd.h>
+#include <iostream>
+
+int main()
+{
+    int nListenSocket = ::socket(AF_INET, SOCK_STREAM, 0);
+  
+    std::cout << nListenSocket << std::endl;
+    
+    if(-1 == nListenSocket)
+    {
+	std::cout << "socket error" << std::endl;
+	return 0;
+    }
+
+    sockaddr_in ServerAddress;
+    memset(&ServerAddress, 0, sizeof(sockaddr_in));
+    ServerAddress.sin_family = AF_INET;
+    ServerAddress.sin_addr.s_addr = htonl(INADDR_ANY);
+    ServerAddress.sin_port = htons(4000);
+
+    if(::bind(nListenSocket, (sockaddr *)&ServerAddress, sizeof(sockaddr_in)) == -1)
+    {
+	std::cout << "bind error" << std::endl;
+	::close(nListenSocket);
+	return 0;
+    }
+
+    if(::listen(nListenSocket, 23) == -1)
+    {
+	std::cout << "listen error" << std::endl;
+	::close(nListenSocket);
+	return 0;
+    }
+
+    sockaddr_in ClientAddress;
+    socklen_t LengthOfClientAddress = sizeof(sockaddr_in);
+    int nConnectedSocket = ::accept(nListenSocket, (sockaddr *)&ClientAddress, &LengthOfClientAddress);
+    if(-1 == nConnectedSocket)
+    {
+	std::cout << "accept error" << std::endl;
+	::close(nListenSocket);
+	return 0;
+    }
+
+    ::write(nConnectedSocket, "Hello World\n", 13);
+
+    ::close(nConnectedSocket);
+    ::close(nListenSocket);
+
+    return 0;
+}
+
