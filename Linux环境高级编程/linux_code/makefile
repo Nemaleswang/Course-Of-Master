@@ -1,4 +1,3 @@
-
 CXX = g++
 
 SRC_DIR = ./cpp_code/

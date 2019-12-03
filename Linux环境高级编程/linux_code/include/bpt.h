@@ -34,12 +34,12 @@ namespace bpt{
 	    off_t child;//非叶子节点有孩子
 	};
 
-	//非叶子节点的定义
+	//索引节点的定义
 	struct internal_node_t{
 	    typedef index_t *child_t;
 	    off_t parent; //父亲节点偏移量
-	    off_t next; //下一个叶子节点偏移量
-	    off_t prev;//上一个叶子节点偏移量
+	    off_t next; //下一个索引节点偏移量
+	    off_t prev;//上一个索引节点偏移量
 	    size_t n;
    	    index_t children[BP_ORDER];
 	};
@@ -56,7 +56,7 @@ namespace bpt{
 	    off_t next; //下一个叶子节点偏移量
 	    off_t prev;//上一个叶子节点偏移量
 	    size_t n;
-	    	record_t children[BP_ORDER];
+	    record_t children[BP_ORDER];
 	};
 
 	//B+树的函数封装
@@ -66,10 +66,6 @@ namespace bpt{
 
 	    	//固定键值查找
     		int search(const key_t& key, value_t *value) const;
-		
-		//范围查找
-		int search_range(key_t *left, const key_t &right,
-                     value_t *values, size_t max, bool *next = NULL) const;
 		
 		//删除操作
 		int remove(const key_t& key);

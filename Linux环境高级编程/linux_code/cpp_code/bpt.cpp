@@ -60,57 +60,7 @@ namespace bpt{
 	    	}
 	}
 
-	int bplus_tree::search_range(key_t *left, const key_t &right,
-                             value_t *values, size_t max, bool *next) const{
-		//非法范围	
-	    	if (left == NULL || keycmp(*left, right) > 0)
-			return -1;
-		//分别寻找left和right的offset
-	    	off_t off_left = search_leaf(*left);
-	    	off_t off_right = search_leaf(right);
-	    	off_t off = off_left;
-	    	size_t i = 0;
-	    	record_t *b, *e;
-
-	    	leaf_node_t leaf;
-	    	while (off != off_right && off != 0 && i < max) {
-			map(&leaf, off);
-
-			//起始点
-			if (off_left == off) b = find(leaf, *left);
-			else b = begin(leaf);
-
-			//复制值
-			e = leaf.children + leaf.n;
-			for (; b != e && i < max; ++b, ++i)
-		    		values[i] = b->value;
-
-			off = leaf.next;
-	    	}
-
-	    	//最后一个叶子节点
-	    	if (i < max) {
-			map(&leaf, off_right);
-
-			b = find(leaf, *left);
-			e = upper_bound(begin(leaf), end(leaf), right);
-			for (; b != e && i < max; ++b, ++i)
-		    		values[i] = b->value;
-	    	}
-
-	    	//为下一次迭代做标记
-	    	if (next != NULL) {
-			if (i == max && b != e) {
-		    		*next = true;
-		    		*left = b->key;
-			} 
- 			else {
-		    		*next = false;
-			}
-	    	}
-
-	    	return i;
-	}
+	
 	int bplus_tree::remove(const key_t& key){
 	    	internal_node_t parent;
 	    	leaf_node_t leaf;
