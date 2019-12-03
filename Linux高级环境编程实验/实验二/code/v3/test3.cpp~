@@ -5,10 +5,7 @@
 
 using namespace std;
 
-<<<<<<< HEAD
-=======
 //Class A和Class B跟前面的两个实验中的序列化类类似，只不过A中只有一个int，而B类中有两个
->>>>>>> fd5745b4d5a3c151a3d0de2977c5d7451b195e2d
 class A{
     public:
     A(){
@@ -76,10 +73,7 @@ class B{
 
 };
 
-<<<<<<< HEAD
-=======
 //用于区别类A和类B
->>>>>>> fd5745b4d5a3c151a3d0de2977c5d7451b195e2d
 struct Serialized{
     int nType;
     void *pObj;
@@ -93,17 +87,11 @@ class Serializer{
                 return false;
             for(int i = 0; i < v.size(); i++){
                 fwrite(&(v[i].nType), sizeof(int), 1, fp);
-<<<<<<< HEAD
-                if(0 == v[i].nType){
-                    A *p = (A*)(v[i].pObj);
-                    p->Serialize(fp);
-=======
 		//类A
                 if(0 == v[i].nType){
                     A *p = (A*)(v[i].pObj);
                     p->Serialize(fp);
 		//类B
->>>>>>> fd5745b4d5a3c151a3d0de2977c5d7451b195e2d
                 }else if(1 == v[i].nType){
                     B *p = (B*)(v[i].pObj);
                     p->Serialize(fp);
@@ -147,10 +135,7 @@ class Serializer{
 int main() {
     {
         {
-<<<<<<< HEAD
-=======
 	    //声明一些分属于不同类的对象
->>>>>>> fd5745b4d5a3c151a3d0de2977c5d7451b195e2d
             A a1(2);
             Serialized s1;
             s1.nType = 0;
@@ -198,8 +183,4 @@ int main() {
         }
         return 0;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> fd5745b4d5a3c151a3d0de2977c5d7451b195e2d

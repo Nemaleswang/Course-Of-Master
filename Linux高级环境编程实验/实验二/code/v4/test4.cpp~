@@ -11,10 +11,7 @@ public:
     virtual bool GetType(int& type) = 0;
 
 public:
-<<<<<<< HEAD
-=======
     //声明接口
->>>>>>> fd5745b4d5a3c151a3d0de2977c5d7451b195e2d
     ILSerializable()
     {
     }
