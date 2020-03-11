@@ -1,0 +1,7 @@
+#!/bin/sh
+rm -rf ./a.c
+touch a.c
+./tpw&
+#sleep 2
+./tpw2&
+

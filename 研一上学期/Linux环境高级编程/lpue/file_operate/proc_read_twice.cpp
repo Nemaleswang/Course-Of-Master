@@ -1,0 +1,75 @@
+
+/*
+ * =====================================================================================
+ *
+ *       Filename:  proc_read_twice.cpp
+ *
+ *    Description:  practise
+ *
+ *        Version:  1.0
+ *        Created:  2010年10月18日 09时52分45秒
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ *         Author:  YOUR NAME (), YOUR EMAIL
+ *        Company:  NDSL UESTC
+ *
+ * =====================================================================================
+ */
+
+
+#include <iostream>
+#include <cstring>
+#include <cerrno>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+
+using std::cout;
+using std::cerr;
+using std::endl;
+
+
+const int bufSize = 100;
+
+int
+main(void)
+{
+	int   fd1, fd2;
+    char buf[bufSize + 1];
+
+   	if ((fd1 = open("datafile", O_RDONLY)) == -1)
+    {
+       cerr << "creat file error: "
+            << strerror(errno) << endl;
+      	return -1;
+    }
+	if (read(fd1, buf, bufSize) == -1)
+	{
+    	cerr << "read error: "
+			<< strerror(errno) << endl;
+		return -1;
+	}
+	buf[bufSize] = '\0';
+
+    cout <<	buf << endl;
+
+   	if ((fd2 = open("datafile", O_RDONLY)) == -1)
+    {
+       cerr << "creat file error: "
+            << strerror(errno) << endl;
+      	return -1;
+    }
+	if (read(fd2, buf, bufSize) == -1)
+	{
+    	cerr << "read error: "
+			<< strerror(errno) << endl;
+		return -1;
+	}
+	buf[bufSize] = '\0';
+    cout << buf << endl;
+
+	close(fd1);
+	close(fd2);
+	return 0;
+}
